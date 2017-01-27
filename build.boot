@@ -1,11 +1,10 @@
-(def +version+ "0.2.2")
-
 (set-env!
  :resource-paths #{"src" "boot-sass/src" "lein-sass4clj/src"}
  :source-paths #{"test" "test-resources"}
  :dependencies   '[[org.clojure/clojure "1.7.0" :scope "provided"]
                    [boot/core "2.5.2" :scope "provided"]
                    [adzerk/boot-test "1.0.7" :scope "test"]
+                   [adzerk/bootlaces "0.1.13" :scope "test"]
                    [io.bit3/jsass "5.2.0"]
                    ;; Webjars-locator uses logging
                    [org.slf4j/slf4j-nop "1.7.12" :scope "test"]
@@ -15,12 +14,17 @@
                    ;; For testing the webjars asset locator implementation
                    [org.webjars.bower/bootstrap "4.0.0-alpha" :scope "test"]])
 
-(require '[adzerk.boot-test :refer [test]])
+(require '[adzerk.boot-test :refer [test]]
+         '[adzerk.bootlaces :refer :all])
+
+(def +version+ "0.3.0")
+(bootlaces! +version+)
 
 (task-options!
-  pom {:version     +version+
-       :url         "https://github.com/deraen/sass4clj"
-       :scm         {:url "https://github.com/deraen/sass4clj"}
+  pom {:project     'flyingmachine/sass4clj
+       :version     +version+
+       :url         "https://github.com/flyingmachine/sass4clj"
+       :scm         {:url "https://github.com/flyingmachine/sass4clj"}
        :license     {"Eclipse Public License" "http://www.eclipse.org/legal/epl-v10.html"}})
 
 (defn with-files
@@ -60,7 +64,7 @@
                  (not (re-find #"leiningen" (tmp-path x)))))
     (comp
      (pom
-      :project 'deraen/sass4clj
+      :project 'flyingmachine/sass4clj
       :description "Clojure wrapper for jsass")
      (jar)
      (install)))
@@ -69,10 +73,10 @@
     (fn [x] (re-find #"boot_sass" (tmp-path x)))
     (comp
      (pom
-      :project 'deraen/boot-sass
+      :project 'flyingmachine/boot-sass
       :description "Boot task to compile SASS"
       :dependencies [])
-     (write-version-file :namespace 'deraen.boot-sass.version)
+     (write-version-file :namespace 'flyingmachine.boot-sass.version)
      (jar)
      (install)))
 
@@ -80,7 +84,7 @@
     (fn [x] (re-find #"leiningen" (tmp-path x)))
     (comp
      (pom
-      :project 'deraen/lein-sass4clj
+      :project 'flyingmachine/lein-sass4clj
       :description "Leinigen task to compile SASS"
       :dependencies [])
      (write-version-file :namespace 'leiningen.sass4clj.version)
