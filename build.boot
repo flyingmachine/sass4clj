@@ -107,3 +107,8 @@
   (comp
    (test :namespaces #{'sass4clj.core-test 'sass4clj.webjars-test})))
 
+(deftask prebuild
+  "Remove directories that shouldn't go into the final jar"
+  []
+  (set-env! :source-paths #(into #{} (remove #{"test-resources" "test"} %)))
+  identity)
