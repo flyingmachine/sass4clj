@@ -9,7 +9,7 @@
    [deraen.boot-sass.version :refer [+version+]]))
 
 (def ^:private deps
-  [['deraen/sass4clj +version+]])
+  [['flyingmachine/sass4clj +version+]])
 
 (defn by-pre
   [exts files & [negate?]]

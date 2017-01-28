@@ -96,8 +96,11 @@
 
 (deftask deploy []
   (comp
-   (build)
-   (push :repo "clojars")))
+    (build)
+    (push :repo-map {:url "https://clojars.org/repo/"
+                     :username (System/getenv "CLOJARS_USER")
+                     :password (System/getenv "CLOJARS_PASS")}
+          :gpg-sign (not (.endsWith +version+ "-SNAPSHOT")))))
 
 (deftask run-tests []
   (comp
